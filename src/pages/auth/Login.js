@@ -59,7 +59,7 @@ const Login = () => {
         <Card>
           <div className={styles.form}>
             <h2>Login</h2>
-            <form onClick={loginUser}>
+            <form onSubmit={loginUser}>
               <input
                 type="text"
                 placeholder="Email"
