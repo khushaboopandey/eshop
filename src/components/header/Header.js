@@ -1,18 +1,31 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import styles from "./Header.module.scss";
-import { FaShoppingCart } from "react-icons/fa";
+import { FaShoppingCart, FaUserCircle } from "react-icons/fa";
 import { HiOutlineMenuAlt3 } from "react-icons/hi";
 import { FaTimes } from "react-icons/fa";
-import { getAuth, signOut } from "firebase/auth";
+import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "../../firebase/config";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
 const Header = () => {
   const [showMenu, setShowMenu] = useState(false);
+  const [uName, setuName] = useState("");
 
   const navigate = useNavigate();
+  //get the current sign in user
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const uid = user.uid;
+        // alert(user.displayName);
+        setuName(user.displayName);
+      } else {
+        setuName("");
+      }
+    });
+  }, []);
 
   const toggleMenu = () => {
     setShowMenu(!showMenu);
@@ -94,6 +107,10 @@ const Header = () => {
               <NavLink to="/login" className={acttiveLink}>
                 Login
               </NavLink>
+              <a href="#">
+                <FaUserCircle size={16} />
+                Hi,{uName}
+              </a>
               <NavLink to="/register" className={acttiveLink}>
                 Register
               </NavLink>
