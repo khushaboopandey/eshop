@@ -4,9 +4,15 @@ import styles from "./Header.module.scss";
 import { FaShoppingCart } from "react-icons/fa";
 import { HiOutlineMenuAlt3 } from "react-icons/hi";
 import { FaTimes } from "react-icons/fa";
+import { getAuth, signOut } from "firebase/auth";
+import { auth } from "../../firebase/config";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
   const [showMenu, setShowMenu] = useState(false);
+
+  const navigate = useNavigate();
 
   const toggleMenu = () => {
     setShowMenu(!showMenu);
@@ -35,6 +41,18 @@ const Header = () => {
       </Link>
     </span>
   );
+
+  const logoutUser = () => {
+    signOut(auth)
+      .then(() => {
+        toast.success("Logout successfully.");
+        navigate("/");
+      })
+      .catch((error) => {
+        toast.error(error.message);
+        // An error happened.
+      });
+  };
 
   const acttiveLink = ({ isActive }) => (isActive ? `${styles.active}` : "");
   return (
@@ -81,6 +99,9 @@ const Header = () => {
               </NavLink>
               <NavLink to="/order-history" className={acttiveLink}>
                 My Order
+              </NavLink>
+              <NavLink to="/" onClick={logoutUser}>
+                Logout
               </NavLink>
             </span>
             {cart}
