@@ -22,15 +22,19 @@ const Header = () => {
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        console.log(user);
-        // const uid = user.uid;
-        // alert(user.displayName);
-        setuName(user.displayName);
+        if (user.displayName == null) {
+          const u1 = user.email.slice(0, -10);
+          const uName = u1.charAt(0).toUpperCase() + u1.slice(1);
+          setuName(uName);
+          console.log(uName);
+        } else {
+          setuName(user.displayName);
+        }
 
         dispatch(
           SET_ACTIVE_USER({
             email: user.email,
-            userName: user.displayName,
+            userName: user.displayName ? user.displayName : uName,
             userID: user.uid,
           })
         );
