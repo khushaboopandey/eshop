@@ -9,7 +9,10 @@ import { auth } from "../../firebase/config";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { SET_ACTIVE_USER } from "../../redux/slice/authSlice";
+import {
+  SET_ACTIVE_USER,
+  REMOVE_ACTIVE_USER,
+} from "../../redux/slice/authSlice";
 
 const Header = () => {
   const [showMenu, setShowMenu] = useState(false);
@@ -26,7 +29,6 @@ const Header = () => {
           const u1 = user.email.slice(0, -10);
           const uName = u1.charAt(0).toUpperCase() + u1.slice(1);
           setuName(uName);
-          console.log(uName);
         } else {
           setuName(user.displayName);
         }
@@ -40,9 +42,10 @@ const Header = () => {
         );
       } else {
         setuName("");
+        dispatch(REMOVE_ACTIVE_USER());
       }
     });
-  }, []);
+  }, [dispatch, uName]);
 
   const toggleMenu = () => {
     setShowMenu(!showMenu);
@@ -124,7 +127,7 @@ const Header = () => {
               <NavLink to="/login" className={acttiveLink}>
                 Login
               </NavLink>
-              <a href="#">
+              <a href="#home">
                 <FaUserCircle size={16} />
                 Hi,{uName}
               </a>
