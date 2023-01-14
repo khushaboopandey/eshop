@@ -2,9 +2,9 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   isLoggedIn: false,
-  email: "",
-  userName: "",
-  userID: "",
+  email: null,
+  userName: null,
+  userID: null,
 };
 
 const authSlice = createSlice({
@@ -12,7 +12,12 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     SET_ACTIVE_USER: (state, action) => {
-      alert(action.payload);
+      console.log(action.payload);
+      const { email, userName, userID } = action.payload;
+      state.isLoggedIn = true;
+      state.email = email;
+      state.userName = userName;
+      state.userID = userID;
     },
   },
 });
