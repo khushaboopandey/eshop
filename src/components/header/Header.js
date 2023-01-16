@@ -13,7 +13,8 @@ import {
   SET_ACTIVE_USER,
   REMOVE_ACTIVE_USER,
 } from "../../redux/slice/authSlice";
-
+import ShowOnLogin from "../hiddenLink/HiddenLinks";
+import { ShowOnLogout } from "../hiddenLink/HiddenLinks";
 const Header = () => {
   const [showMenu, setShowMenu] = useState(false);
   const [uName, setuName] = useState("");
@@ -124,22 +125,30 @@ const Header = () => {
           </ul>
           <div className={styles["header-right"]} onClick={hideMenu}>
             <span className={styles.links}>
-              <NavLink to="/login" className={acttiveLink}>
-                Login
-              </NavLink>
-              <a href="#home">
-                <FaUserCircle size={16} />
-                Hi,{uName}
-              </a>
-              <NavLink to="/register" className={acttiveLink}>
+              <ShowOnLogout>
+                <NavLink to="/login" className={acttiveLink}>
+                  Login
+                </NavLink>
+              </ShowOnLogout>
+              <ShowOnLogin>
+                <a href="#home" style={{ color: "#ff7722" }}>
+                  <FaUserCircle size={16} />
+                  Hi,{uName}
+                </a>
+              </ShowOnLogin>
+              {/* <NavLink to="/register" className={acttiveLink}>
                 Register
-              </NavLink>
-              <NavLink to="/order-history" className={acttiveLink}>
-                My Order
-              </NavLink>
-              <NavLink to="/" onClick={logoutUser}>
-                Logout
-              </NavLink>
+              </NavLink> */}
+              <ShowOnLogin>
+                <NavLink to="/order-history" className={acttiveLink}>
+                  My Order
+                </NavLink>
+              </ShowOnLogin>
+              <ShowOnLogin>
+                <NavLink to="/" onClick={logoutUser}>
+                  Logout
+                </NavLink>
+              </ShowOnLogin>
             </span>
             {cart}
           </div>
